@@ -21,8 +21,8 @@ func main(args: [String]) -> Int {
     var app: NSApplication = NSApplication.sharedApplication()
     app.setActivationPolicy( NSApplicationActivationPolicy.Regular ) // this tells OS X that this is a standard application that appears in the dock
 
-    var window: NSWindow = NSWindow( contentRect : NSMakeRect( 0, 0, 100, 100 )
-                                   , styleMask   : NSBorderlessWindowMask
+    var window: NSWindow = NSWindow( contentRect : NSMakeRect( 0, 0, 800, 600 )
+                                   , styleMask   : NSTitledWindowMask | NSClosableWindowMask
                                    , backing     : NSBackingStoreType.Buffered
                                    , defer       : true )
 
