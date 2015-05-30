@@ -4,6 +4,15 @@ class WindowDelegate: NSObject, NSWindowDelegate {
     func windowWillClose( notification: NSNotification ) {
         NSApplication.sharedApplication().terminate(0)
     }
+
+    func windowDidResize( notification: NSNotification ) {
+        var window = notification.object as! NSWindow
+        window.backgroundColor = NSColor( red: CGFloat( 1.0 )
+                                        , green: CGFloat( 0.0 )
+                                        , blue: CGFloat( 0.0 )
+                                        , alpha: CGFloat( 1.0 )
+                                        )
+    }
 }
 
 class ApplicationDelegate: NSObject, NSApplicationDelegate {
@@ -22,7 +31,7 @@ func main(args: [String]) -> Int {
     app.setActivationPolicy( NSApplicationActivationPolicy.Regular ) // this tells OS X that this is a standard application that appears in the dock
 
     var window: NSWindow = NSWindow( contentRect : NSMakeRect( 0, 0, 800, 600 )
-                                   , styleMask   : NSTitledWindowMask | NSClosableWindowMask
+                                   , styleMask   : NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask
                                    , backing     : NSBackingStoreType.Buffered
                                    , defer       : true )
 
