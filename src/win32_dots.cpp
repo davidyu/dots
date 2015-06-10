@@ -1,46 +1,75 @@
+#include <stdint.h>
 #include <windows.h>
-
+#include <math.h>
 
 #define local_persist static
 #define global_variable static
 #define internal static
 
+typedef uint8_t uint8;
+typedef uint16_t uint16;
+typedef uint32_t uint32;
+
 global_variable bool Running = true;
 global_variable BITMAPINFO BitmapInfo;
 global_variable void * BitmapMemory;
-global_variable HBITMAP BitmapHandle;
-global_variable HDC BitmapDeviceContext;
+global_variable int BitmapWidth;
+global_variable int BitmapHeight;
+global_variable int Tick;
+
+internal void Draw( int Width, int Height )
+{
+    int BytesPerPixel = 4;
+    int Pitch = Width * BytesPerPixel;
+    uint8 * Row = (uint8 *) BitmapMemory;
+    for ( int Y = 0; Y < Height; Y++ ) {
+        uint32 * Pixel = (uint32 *) Row;
+        for ( int X = 0; X < Width; X++ ) {
+            uint32 R = (int) ( 255.0 * sin( (float) Tick / 100 ) );
+            uint32 G = (int) ( 255.0 * cos( (float) Tick / 100 ) );
+            uint32 B = (int) ( 255.0 * tan( (float) Tick / 100 ) );
+
+            // Little-Endian (BBGGRRxx)
+            *Pixel = ( ( R << 16) & 0x00ff0000 )
+                   | ( ( G << 8 ) & 0x0000ff00 )
+                   | ( ( B ) & 0x0000ff );
+
+            Pixel++;
+        }
+        Row += Pitch;
+    }
+}
 
 internal void ResizeDIBSection( int Width, int Height )
 {
-    if ( BitmapHandle ) {
-        DeleteObject( BitmapHandle );
+    if ( BitmapMemory ) {
+        VirtualFree( BitmapMemory, 0, MEM_RELEASE );
     }
 
-    if ( !BitmapDeviceContext ) {
-        BitmapDeviceContext = CreateCompatibleDC( 0 );
-    }
+    BitmapWidth = Width;
+    BitmapHeight = Height;
 
     BitmapInfo.bmiHeader.biSize = sizeof( BitmapInfo.bmiHeader );
-    BitmapInfo.bmiHeader.biWidth = Width;
-    BitmapInfo.bmiHeader.biHeight = Height;
+    BitmapInfo.bmiHeader.biWidth = BitmapWidth;
+    BitmapInfo.bmiHeader.biHeight = -BitmapHeight;
     BitmapInfo.bmiHeader.biPlanes = 1;
     BitmapInfo.bmiHeader.biBitCount = 32;
     BitmapInfo.bmiHeader.biCompression = BI_RGB;
 
-    BitmapHandle = CreateDIBSection( BitmapDeviceContext
-                                   , &BitmapInfo
-                                   , DIB_RGB_COLORS
-                                   , &BitmapMemory
-                                   , 0
-                                   , 0 );
+    int BytesPerPixel = 4;
+    BitmapMemory = VirtualAlloc( 0, BytesPerPixel * Width * Height, MEM_COMMIT, PAGE_READWRITE );
+
+    Draw( Width, Height );
 }
 
-internal void UpdateWindow( HDC DeviceContext, HWND Window, int X, int Y, int Width, int Height )
+internal void UpdateWindow( HDC DeviceContext, RECT * WindowRect, HWND Window, int X, int Y, int Width, int Height )
 {
+    int WindowWidth = WindowRect->right - WindowRect->left;
+    int WindowHeight = WindowRect->bottom - WindowRect->top;
+
     StretchDIBits( DeviceContext
-                 , X, Y, Width, Height
-                 , X, Y, Width, Height
+                 , 0, 0, BitmapWidth, BitmapHeight
+                 , 0, 0, WindowWidth, WindowHeight
                  , BitmapMemory
                  , &BitmapInfo
                  , DIB_RGB_COLORS
@@ -91,7 +120,10 @@ LRESULT CALLBACK MainWindowCallback( HWND   wnd
             int y = Paint.rcPaint.top;
             int w = Paint.rcPaint.right - Paint.rcPaint.left;
             int h = Paint.rcPaint.bottom - Paint.rcPaint.top;
-            UpdateWindow( DeviceContext, wnd, x, y, w, h );
+
+            RECT ClientRect;
+            GetClientRect( wnd, &ClientRect );
+            UpdateWindow( DeviceContext, &ClientRect, wnd, x, y, w, h );
 
             EndPaint( wnd, &Paint );
         } break;
@@ -131,14 +163,32 @@ WinMain( HINSTANCE Instance
                                           , 0 );
         if ( WindowHandle ) {
             MSG Message;
+            Tick = 0;
             while ( Running ) {
-                BOOL Result = GetMessage( &Message, NULL, 0, 0 );
-                if ( Result > 0 ) {
+                while ( PeekMessage( &Message, NULL, 0, 0, PM_REMOVE ) ) {
+                    if ( Message.message == WM_QUIT ) {
+                        Running = false;
+                    }
+
                     TranslateMessage( &Message );
                     DispatchMessage( &Message );
-                } else {
-                    break;
                 }
+
+                Draw( BitmapWidth, BitmapHeight );
+
+                HDC DeviceContext = GetDC( WindowHandle );
+
+                RECT ClientRect;
+                GetClientRect( WindowHandle, &ClientRect );
+
+                int w = ClientRect.right - ClientRect.left;
+                int h = ClientRect.bottom - ClientRect.top;
+
+                UpdateWindow( DeviceContext, &ClientRect, WindowHandle, 0, 0, w, h );
+
+                ReleaseDC( WindowHandle, DeviceContext );
+
+                Tick++;
             }
         } else {
 
