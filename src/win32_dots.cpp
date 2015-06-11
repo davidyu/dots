@@ -17,6 +17,9 @@ global_variable int BitmapWidth;
 global_variable int BitmapHeight;
 global_variable int Tick;
 
+const double PI = atan(1.0) * 4;
+const double ScaleX = 1.5;
+
 internal void Draw( int Width, int Height )
 {
     int BytesPerPixel = 4;
@@ -25,9 +28,9 @@ internal void Draw( int Width, int Height )
     for ( int Y = 0; Y < Height; Y++ ) {
         uint32 * Pixel = (uint32 *) Row;
         for ( int X = 0; X < Width; X++ ) {
-            uint32 R = (int) ( 255.0 * sin( (float) Tick / 100 ) );
-            uint32 G = (int) ( 255.0 * cos( (float) Tick / 100 ) );
-            uint32 B = (int) ( 255.0 * tan( (float) Tick / 100 ) );
+            uint32 R = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width          ) + 1 )  ) ;
+            uint32 G = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width + PI / 2 ) + 1 )  ) ;
+            uint32 B = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width + PI     ) + 1 )  ) ;
 
             // Little-Endian (BBGGRRxx)
             *Pixel = ( ( R << 16) & 0x00ff0000 )
