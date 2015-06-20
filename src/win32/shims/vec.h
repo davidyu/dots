@@ -1,3 +1,6 @@
+#ifndef DOTS_VECTOR_H
+#define DOTS_VECTOR_H
+
 template <int n> struct Vec {
     float data[n];
 };
@@ -11,3 +14,5 @@ template<> struct Vec<4> {
 };
 
 typedef Vec<4> Vec4;
+
+#endif
