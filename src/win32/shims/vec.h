@@ -16,7 +16,8 @@ template<> struct Vec<4> {
 typedef Vec<4> Vec4;
 typedef Vec<4> Color;
 
-// points are fundamentally different from vectors
+// points are fundamentally different from vectors, let the compiler/typechecker
+// prevent me from doing anything stupid by interchanging them
 
 template <int n> struct Point {
     float data[n];
