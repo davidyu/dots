@@ -1,3 +1,6 @@
+#ifndef DOTS_VERTEX_SHADER_H
+#define DOTS_VERTEX_SHADER_H
+
 #include "vert.h"
 
 struct VS_OUT {
@@ -16,3 +19,5 @@ public:
 
     virtual VS_OUT shade( VS_IN in ) = 0;
 };
+
+#endif
