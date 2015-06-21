@@ -14,5 +14,21 @@ template<> struct Vec<4> {
 };
 
 typedef Vec<4> Vec4;
+typedef Vec<4> Color;
+
+// points are fundamentally different from vectors
+
+template <int n> struct Point {
+    float data[n];
+};
+
+template<> struct Point<3> {
+    union {
+        float data[3];
+        struct { float x, y, z; };
+    };
+};
+
+typedef Point<3> Point3;
 
 #endif
