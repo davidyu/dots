@@ -36,3 +36,45 @@ void vecmat( const Vec4 lhs, const Mat44 rhs, Vec4& out ) {
        out.data[i] = sum;
     }
 }
+
+Mat44 fromRows( Vec4 r0, Vec4 r1, Vec4 r2, Vec4 r3 ) {
+    Mat44 out;
+    for ( uint8 i = 0; i < 4; i++ ) {
+        out.data[0][i] = r0.data[i];
+    }
+
+    for ( uint8 i = 0; i < 4; i++ ) {
+        out.data[1][i] = r1.data[i];
+    }
+
+    for ( uint8 i = 0; i < 4; i++ ) {
+        out.data[2][i] = r2.data[i];
+    }
+
+    for ( uint8 i = 0; i < 4; i++ ) {
+        out.data[3][i] = r3.data[i];
+    }
+
+    return out;
+}
+
+Mat44 fromCols( Vec4 c0, Vec4 c1, Vec4 c2, Vec4 c3 ) {
+    Mat44 out;
+    for ( uint8 i = 0; i < 4; i++ ) {
+        out.data[i][0] = c0.data[i];
+    }
+
+    for ( uint8 i = 0; i < 4; i++ ) {
+        out.data[i][1] = c1.data[i];
+    }
+
+    for ( uint8 i = 0; i < 4; i++ ) {
+        out.data[i][2] = c2.data[i];
+    }
+
+    for ( uint8 i = 0; i < 4; i++ ) {
+        out.data[i][3] = c3.data[i];
+    }
+
+    return out;
+}

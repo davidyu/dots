@@ -6,7 +6,20 @@ struct Vec4;
 #define DOTS_MATRIX_H
 
 template <int rows, int cols> struct Mat {
-    float data[rows][cols];
+    union {
+        float data[rows][cols];
+        float flat[rows * cols];
+    };
+};
+
+template<> struct Mat<4,4> {
+    union {
+        float data[4][4];
+        float flat[16];
+        struct { float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33; };
+        struct { float r00, r01, r02,  tx, r10, r11, r12,  ty, r20, r21, r22,  tz, m30, m31, m32, m33; };
+        struct { float  sx, m01, m02, m03, m10,  sy, m12, m13, m20, m21,  sz, m23, m30, m31, m32, m33; };
+    };
 };
 
 typedef Mat<4,4> Mat44;
@@ -15,6 +28,8 @@ void transpose( const Mat44 in, Mat44& out );
 void matmul( const Mat44 lhs, const Mat44 rhs, Mat44& out );
 void vecmat( const Vec4 lhs, const Mat44 rhs, Vec4& out );
 
+Mat44 fromRows( Vec4 r0, Vec4 r1, Vec4 r2, Vec4 r3 );
+Mat44 fromCols( Vec4 c0, Vec4 c1, Vec4 c2, Vec4 c3 );
 
 inline Mat44 operator *( const Mat44& lhs, const Mat44& rhs ) {
     Mat44 out;
