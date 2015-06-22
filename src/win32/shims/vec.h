@@ -11,13 +11,27 @@ template<> struct Vec<4> {
         struct { float x, y, z, w; };
         struct { float r, g, b, a; };
     };
+
+    Vec( float x, float y, float z, float w ) {
+        x = x;
+        y = y;
+        z = z;
+        w = w;
+    }
+
+    Vec() {
+        x = 0;
+        y = 0;
+        z = 0;
+        w = 0;
+    }
 };
 
 typedef Vec<4> Vec4;
 typedef Vec<4> Color;
 
 // points are fundamentally different from vectors, let the compiler/typechecker
-// prevent me from doing anything stupid by interchanging them
+// prevent me from interchanging them
 
 template <int n> struct Point {
     float data[n];

@@ -11,6 +11,7 @@ Mat44 Camera::GetViewMatrix() {
     auto zaxis = aim;
 
     // TODO make sure this matrix is orthonormal/
+    // we want the inverse of the camera orientation, but because we know this matrix is orthonormal, we can just transpose it
     Mat44 inverseEyeBasis = fromRows( xaxis, yaxis, zaxis, Vec4( 0, 0, 0, 1 ) );
     Mat44 inverseEyeTranslate = fromCols( Vec4( 1, 0, 0, 0 ), Vec4( 0, 1, 0, 0 ), Vec4( 0, 0, 1, 0 ), Vec4( -pos.x, -pos.y, -pos.z, 1 ) );
 
