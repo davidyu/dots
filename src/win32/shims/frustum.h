@@ -6,5 +6,5 @@ class ViewFrustum {
     float fovyRad;
     float aspectRatio;
 
-    Mat44 GetProjectionMatrix();
+    Mat4 GetProjectionMatrix();
 };

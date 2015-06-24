@@ -7,7 +7,7 @@ typedef uint8_t uint8;
 typedef uint16_t uint16;
 typedef uint32_t uint32;
 
-void transpose( const Mat44 in, Mat44& out ) {
+void transpose( const Mat4 in, Mat4& out ) {
     for ( uint8 i = 0; i < 4; i++ ) {
         for ( uint8 j = 0; j < 4; j++ ) {
             out.data[i][j] = in.data[j][i];
@@ -15,7 +15,7 @@ void transpose( const Mat44 in, Mat44& out ) {
     }
 }
 
-void matmul( const Mat44 lhs, const Mat44 rhs, Mat44& out ) {
+void matmul( const Mat4 lhs, const Mat4 rhs, Mat4& out ) {
     for ( uint8 i = 0; i < 4; i++ ) {
         for ( uint8 j = 0; j < 4; j++ ) {
             float sum = 0;
@@ -27,7 +27,7 @@ void matmul( const Mat44 lhs, const Mat44 rhs, Mat44& out ) {
     }
 }
 
-void vecmat( const Vec4 lhs, const Mat44 rhs, Vec4& out ) {
+void vecmat( const Vec4 lhs, const Mat4 rhs, Vec4& out ) {
     for ( uint8 i = 0; i < 4; i++ ) {
        float sum = 0;
        for ( uint8 j = 0; j < 4; j++ ) {
@@ -37,8 +37,8 @@ void vecmat( const Vec4 lhs, const Mat44 rhs, Vec4& out ) {
     }
 }
 
-Mat44 fromRows( Vec4 r0, Vec4 r1, Vec4 r2, Vec4 r3 ) {
-    Mat44 out;
+Mat4 fromRows( Vec4 r0, Vec4 r1, Vec4 r2, Vec4 r3 ) {
+    Mat4 out;
     for ( uint8 i = 0; i < 4; i++ ) {
         out.data[0][i] = r0.data[i];
     }
@@ -58,8 +58,8 @@ Mat44 fromRows( Vec4 r0, Vec4 r1, Vec4 r2, Vec4 r3 ) {
     return out;
 }
 
-Mat44 fromCols( Vec4 c0, Vec4 c1, Vec4 c2, Vec4 c3 ) {
-    Mat44 out;
+Mat4 fromCols( Vec4 c0, Vec4 c1, Vec4 c2, Vec4 c3 ) {
+    Mat4 out;
     for ( uint8 i = 0; i < 4; i++ ) {
         out.data[i][0] = c0.data[i];
     }

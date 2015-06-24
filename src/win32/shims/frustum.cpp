@@ -4,13 +4,13 @@
 
 // this is identical to a conventional OpenGL projection matrix, which
 // assumes a symmetric view frustum (top = -bottom, left = -right) 
-Mat44 ViewFrustum::GetProjectionMatrix() {
+Mat4 ViewFrustum::GetProjectionMatrix() {
 
     float d = 1 / tan( fovyRad / 2 );
     float A = - ( zFar + zNear ) / ( zFar - zNear );
     float B = - 2 * zFar * zNear / ( zFar - zNear );
 
-    Mat44 projectionMatrix = fromRows( Vec4( d / aspectRatio, 0, 0, 0 )
+    Mat4 projectionMatrix = fromRows( Vec4( d / aspectRatio, 0, 0, 0 )
                                      , Vec4( 0, d, 0, 0 )
                                      , Vec4( 0, 0, A, B )
                                      , Vec4( 0, 0, -1, 0 ) );

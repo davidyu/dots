@@ -22,22 +22,22 @@ template<> struct Mat<4,4> {
     };
 };
 
-typedef Mat<4,4> Mat44;
+typedef Mat<4,4> Mat4;
 
-void transpose( const Mat44 in, Mat44& out );
-void matmul( const Mat44 lhs, const Mat44 rhs, Mat44& out );
-void vecmat( const Vec4 lhs, const Mat44 rhs, Vec4& out );
+void transpose( const Mat4 in, Mat4& out );
+void matmul( const Mat4 lhs, const Mat4 rhs, Mat4& out );
+void vecmat( const Vec4 lhs, const Mat4 rhs, Vec4& out );
 
-Mat44 fromRows( Vec4 r0, Vec4 r1, Vec4 r2, Vec4 r3 );
-Mat44 fromCols( Vec4 c0, Vec4 c1, Vec4 c2, Vec4 c3 );
+Mat4 fromRows( Vec4 r0, Vec4 r1, Vec4 r2, Vec4 r3 );
+Mat4 fromCols( Vec4 c0, Vec4 c1, Vec4 c2, Vec4 c3 );
 
-inline Mat44 operator *( const Mat44& lhs, const Mat44& rhs ) {
-    Mat44 out;
+inline Mat4 operator *( const Mat4& lhs, const Mat4& rhs ) {
+    Mat4 out;
     matmul( lhs, rhs, out );
     return out;
 }
 
-inline Vec4 operator *( const Vec4& lhs, const Mat44& rhs ) {
+inline Vec4 operator *( const Vec4& lhs, const Mat4& rhs ) {
     Vec4 out;
     vecmat( lhs, rhs, out );
     return out;

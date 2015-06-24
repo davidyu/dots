@@ -13,9 +13,9 @@ struct VS_IN {
 
 class VertexShader {
 public:
-    Mat44 projectionMatrix;
-    Mat44 viewMatrix;
-    Mat44 modelMatrix;
+    Mat4 projectionMatrix;
+    Mat4 viewMatrix;
+    Mat4 modelMatrix;
 
     virtual VS_OUT shade( VS_IN in ) = 0;
 };

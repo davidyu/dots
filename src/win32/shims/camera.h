@@ -7,5 +7,5 @@ class Camera {
     Vec4 right;
     Vec4 up;
 
-    Mat44 GetViewMatrix();
+    Mat4 GetViewMatrix();
 };
