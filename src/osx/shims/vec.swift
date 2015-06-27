@@ -5,7 +5,7 @@ protocol Vector {
 }
 
 struct Vec<T:Nat>: Vector {
-    var v:[Float]
+    var v = [Float]( count: T.literal(), repeatedValue: 0.0 )
 }
 
 struct Vec2: Vector {
@@ -55,4 +55,12 @@ struct Vec4: Vector {
         get      { return v[2] }
         set( w ) { v[2] = w    }
     }
+}
+
+func dot<T:Nat>( a: Vec<T>, b: Vec<T> ) -> Float {
+    var sum: Float = 0.0
+    for n in 0...T.literal() - 1 {
+        sum += a.v[n] * b.v[n]
+    }
+    return sum
 }
