@@ -49,5 +49,3 @@ func main(args: [String]) -> Int {
 
     return 0
 }
-
-main(Process.arguments)
