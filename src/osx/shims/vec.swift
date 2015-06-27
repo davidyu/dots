@@ -26,12 +26,8 @@ struct Vec2: Vector, SpecializedVector {
     var count = 2
     private var v = [Float]( count: 2, repeatedValue: 0.0 )
     subscript( index: Int ) -> Float {
-        get {
-            return v[index]
-        }
-        set( newValue ) {
-            v[index] = newValue
-        }
+        get             { return v[index]     }
+        set( newValue ) { v[index] = newValue }
     }
     var x: Float {
         get      { return v[0] }
@@ -53,12 +49,8 @@ struct Vec3: Vector, SpecializedVector {
     var count = 3
     private var v = [Float]( count: 3, repeatedValue: 0.0 )
     subscript( index: Int ) -> Float {
-        get {
-            return v[index]
-        }
-        set( newValue ) {
-            v[index] = newValue
-        }
+        get             { return v[index]     }
+        set( newValue ) { v[index] = newValue }
     }
     var x: Float {
         get      { return v[0] }
@@ -85,12 +77,8 @@ struct Vec4: Vector {
     var count = 4
     private var v = [Float]( count: 4, repeatedValue: 0.0 )
     subscript( index: Int ) -> Float {
-        get {
-            return v[index]
-        }
-        set( newValue ) {
-            v[index] = newValue
-        }
+        get             { return v[index]     }
+        set( newValue ) { v[index] = newValue }
     }
     var x: Float {
         get      { return v[0] }
