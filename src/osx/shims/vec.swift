@@ -1,22 +1,38 @@
 // unsafe base
 
 protocol Vector {
-    var v: [Float] { get set }
+    subscript( index: Int ) -> Float { get set }
 }
 
 struct Vec<T:Nat>: Vector {
-    var v = [Float]( count: T.literal(), repeatedValue: 0.0 )
+    private var v = [Float]( count: T.literal(), repeatedValue: 0.0 )
+    subscript( index: Int ) -> Float {
+        get {
+            return v[index]
+        }
+        set( newValue ) {
+            v[index] = newValue
+        }
+    }
 }
 
 protocol SpecializedVector {
-    var v: [Float] { get set }
     var count: Int { get }
     init( v: [Float] )
+    subscript( index: Int ) -> Float { get set }
 }
 
 struct Vec2: Vector, SpecializedVector {
     var count = 2
-    var v = [Float]( count: 2, repeatedValue: 0.0 )
+    private var v = [Float]( count: 2, repeatedValue: 0.0 )
+    subscript( index: Int ) -> Float {
+        get {
+            return v[index]
+        }
+        set( newValue ) {
+            v[index] = newValue
+        }
+    }
     var x: Float {
         get      { return v[0] }
         set( x ) { v[0] = x    }
@@ -35,7 +51,15 @@ struct Vec2: Vector, SpecializedVector {
 
 struct Vec3: Vector, SpecializedVector {
     var count = 3
-    var v = [Float]( count: 3, repeatedValue: 0.0 )
+    private var v = [Float]( count: 3, repeatedValue: 0.0 )
+    subscript( index: Int ) -> Float {
+        get {
+            return v[index]
+        }
+        set( newValue ) {
+            v[index] = newValue
+        }
+    }
     var x: Float {
         get      { return v[0] }
         set( x ) { v[0] = x    }
@@ -59,7 +83,15 @@ struct Vec3: Vector, SpecializedVector {
 
 struct Vec4: Vector {
     var count = 4
-    var v = [Float]( count: 4, repeatedValue: 0.0 )
+    private var v = [Float]( count: 4, repeatedValue: 0.0 )
+    subscript( index: Int ) -> Float {
+        get {
+            return v[index]
+        }
+        set( newValue ) {
+            v[index] = newValue
+        }
+    }
     var x: Float {
         get      { return v[0] }
         set( x ) { v[0] = x    }
@@ -96,7 +128,7 @@ infix operator + { associativity left precedence 140 }
 func +<T:Nat>( left: Vec<T>, right: Vec<T> ) -> Vec<T> {
     var values = [Float]( count: T.literal(), repeatedValue: 0.0 )
     for n in 0...T.literal() - 1 {
-        values[n] = left.v[n] + right.v[n]
+        values[n] = left[n] + right[n]
     }
     return Vec<T>( v: values )
 }
@@ -104,7 +136,7 @@ func +<T:Nat>( left: Vec<T>, right: Vec<T> ) -> Vec<T> {
 func +<T: SpecializedVector>( left: T, right: T ) -> T {
     var values = [Float]( count: left.count, repeatedValue: 0.0 )
     for n in 0...left.count - 1 {
-        values[n] = left.v[n] + right.v[n]
+        values[n] = left[n] + right[n]
     }
     return T( v: values )
 }
