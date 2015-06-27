@@ -1,18 +1,31 @@
+import Darwin
+
 // unsafe base
 
 protocol Vector {
     subscript( index: Int ) -> Float { get set }
+    var lensq: Float { get }
+    var length: Float { get }
 }
 
 struct Vec<T:Nat>: Vector {
     private var v = [Float]( count: T.literal(), repeatedValue: 0.0 )
     subscript( index: Int ) -> Float {
-        get {
-            return v[index]
+        get             { return v[index]     }
+        set( newValue ) { v[index] = newValue }
+    }
+    var lensq: Float {
+        var lensq: Float = 0.0
+        for n in 0...T.literal() - 1 {
+            lensq += v[n] * v[n]
         }
-        set( newValue ) {
-            v[index] = newValue
-        }
+        return lensq
+    }
+    init( v: [Float] ) {
+        self.v = Array( v[0...T.literal()] )
+    }
+    var length: Float {
+        return sqrt( self.lensq )
     }
 }
 
@@ -23,7 +36,7 @@ protocol SpecializedVector {
 }
 
 struct Vec2: Vector, SpecializedVector {
-    var count = 2
+    let count = 2
     private var v = [Float]( count: 2, repeatedValue: 0.0 )
     subscript( index: Int ) -> Float {
         get             { return v[index]     }
@@ -43,10 +56,16 @@ struct Vec2: Vector, SpecializedVector {
     init( x: Float, y: Float ) {
         self.v = [x,y]
     }
+    var lensq: Float {
+        return v[0] * v[0] + v[1] * v[1]
+    }
+    var length: Float {
+        return sqrt( self.lensq )
+    }
 }
 
 struct Vec3: Vector, SpecializedVector {
-    var count = 3
+    let count = 3
     private var v = [Float]( count: 3, repeatedValue: 0.0 )
     subscript( index: Int ) -> Float {
         get             { return v[index]     }
@@ -70,11 +89,16 @@ struct Vec3: Vector, SpecializedVector {
     init( x: Float, y: Float, z: Float ) {
         self.v = [x,y,z]
     }
+    var lensq: Float {
+        return v[0] * v[0] + v[1] * v[1] + v[2] * v[2]
+    }
+    var length: Float {
+        return sqrt( self.lensq )
+    }
 }
 
-
 struct Vec4: Vector {
-    var count = 4
+    let count = 4
     private var v = [Float]( count: 4, repeatedValue: 0.0 )
     subscript( index: Int ) -> Float {
         get             { return v[index]     }
@@ -101,6 +125,12 @@ struct Vec4: Vector {
     }
     init( x: Float, y: Float, z: Float, w: Float ) {
         self.v = [x,y,z,w]
+    }
+    var lensq: Float {
+        return v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]
+    }
+    var length: Float {
+        return sqrt( self.lensq )
     }
 }
 
