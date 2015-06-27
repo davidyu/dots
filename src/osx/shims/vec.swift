@@ -28,6 +28,9 @@ struct Vec2: Vector, SpecializedVector {
     init( v: [Float] ) {
         self.v = [v[0], v[1]]
     }
+    init( x: Float, y: Float ) {
+        self.v = [x,y]
+    }
 }
 
 struct Vec3: Vector, SpecializedVector {
@@ -47,6 +50,9 @@ struct Vec3: Vector, SpecializedVector {
     }
     init( v: [Float] ) {
         self.v = Array(v[0...2])
+    }
+    init( x: Float, y: Float, z: Float ) {
+        self.v = [x,y,z]
     }
 }
 
@@ -72,6 +78,9 @@ struct Vec4: Vector {
     }
     init( v: [Float] ) {
         self.v = Array(v[0...3])
+    }
+    init( x: Float, y: Float, z: Float, w: Float ) {
+        self.v = [x,y,z,w]
     }
 }
 
