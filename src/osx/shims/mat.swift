@@ -6,7 +6,7 @@ protocol Matrix {
 struct Mat<R:Nat, C:Nat>: Matrix {
     private var rows = R.literal()
     private var cols = C.literal()
-    var m = [Float]( count: self.rows * self.cols, repeatedValue: 0.0 )
+    var m = [Float]( count: R.literal() * C.literal(), repeatedValue: 0.0 )
     subscript( row: Int, col: Int ) -> Float {
         get {
             return m[ cols * row + col ]
@@ -16,4 +16,25 @@ struct Mat<R:Nat, C:Nat>: Matrix {
             m[ cols * row + col ] = newValue
         }
     }
+    init( m: [Float] ) {
+        self.m = m
+    }
+}
+
+func fromRows<R:Nat, C:Nat>( rows: [Vec<C>] ) -> Mat<R, C> {
+    var m: [Float] = []
+    for r in rows {
+        m += r.data
+    }
+    return Mat<R,C>( m: m )
+}
+
+func fromCols<R:Nat, C:Nat>( cols: [Vec<R>] ) -> Mat<R, C> {
+    var m: [Float] = []
+    for r in 0...R.literal() - 1 {
+        for c in cols {
+            m.append( c.data[r] )
+        }
+    }
+    return Mat<R,C>( m: m )
 }
