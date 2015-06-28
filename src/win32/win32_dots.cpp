@@ -1,14 +1,10 @@
-#include <stdint.h>
 #include <windows.h>
 #include <math.h>
+#include "types.inc"
 
 #define local_persist static
 #define global_variable static
 #define internal static
-
-typedef uint8_t uint8;
-typedef uint16_t uint16;
-typedef uint32_t uint32;
 
 global_variable bool Running = true;
 global_variable BITMAPINFO BitmapInfo;
@@ -24,13 +20,13 @@ internal void Draw( int Width, int Height )
 {
     int BytesPerPixel = 4;
     int Pitch = Width * BytesPerPixel;
-    uint8 * Row = (uint8 *) BitmapMemory;
+    u8 * Row = (u8 *) BitmapMemory;
     for ( int Y = 0; Y < Height; Y++ ) {
-        uint32 * Pixel = (uint32 *) Row;
+        u32 * Pixel = (u32 *) Row;
         for ( int X = 0; X < Width; X++ ) {
-            uint32 R = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width          ) + 1 )  ) ;
-            uint32 G = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width + PI / 2 ) + 1 )  ) ;
-            uint32 B = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width + PI     ) + 1 )  ) ;
+            u32 R = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width          ) + 1 )  ) ;
+            u32 G = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width + PI / 2 ) + 1 )  ) ;
+            u32 B = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width + PI     ) + 1 )  ) ;
 
             // Little-Endian (BBGGRRxx)
             *Pixel = ( ( R << 16) & 0x00ff0000 )

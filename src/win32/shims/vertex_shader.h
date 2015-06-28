@@ -2,6 +2,7 @@
 #define DOTS_VERTEX_SHADER_H
 
 #include "vert.h"
+#include "mat.h"
 
 struct VS_OUT {
     Point3 position;
