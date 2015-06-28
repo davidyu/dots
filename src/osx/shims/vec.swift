@@ -1,13 +1,13 @@
 import Darwin
 
-// unsafe base
-
+// hide me
 protocol Vector {
     subscript( index: Int ) -> Float { get set }
     var lensq: Float { get }
     var length: Float { get }
 }
 
+// expose me
 struct Vec<T:Nat>: Vector {
     private var v = [Float]( count: T.literal(), repeatedValue: 0.0 )
     subscript( index: Int ) -> Float {
@@ -29,12 +29,14 @@ struct Vec<T:Nat>: Vector {
     }
 }
 
+// hide me
 protocol SpecializedVector {
     var count: Int { get }
     init( v: [Float] )
     subscript( index: Int ) -> Float { get set }
 }
 
+// expose me
 struct Vec2: Vector, SpecializedVector {
     let count = 2
     private var v = [Float]( count: 2, repeatedValue: 0.0 )
