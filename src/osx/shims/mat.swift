@@ -38,3 +38,15 @@ func fromCols<R:Nat, C:Nat>( cols: [Vec<R>] ) -> Mat<R, C> {
     }
     return Mat<R,C>( m: m )
 }
+
+func transpose<R:Nat, C:Nat>( mat: Mat<R, C> ) -> Mat<C, R> {
+    var m: [Float] = []
+
+    for r in 0...R.literal() - 1 {
+        for c in 0...C.literal() - 1 {
+            m.append( mat[ c, r ] )
+        }
+    }
+
+    return Mat<C,R>( m: m )
+}
