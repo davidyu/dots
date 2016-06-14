@@ -1,4 +1,4 @@
-#include "mat.h"
+#include "mat.hpp"
 
 class ViewFrustum {
     float zNear;

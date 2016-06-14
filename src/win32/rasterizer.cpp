@@ -1,6 +1,6 @@
 #include "rasterizer.h"
 
-#include "vec.h"
+#include "vec.hpp"
 #include "vertex_shader.h"
 #include "fragment_shader.h"
 

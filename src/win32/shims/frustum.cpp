@@ -1,5 +1,5 @@
 #include <math.h>
-#include "vec.h"
+#include "vec.hpp"
 #include "frustum.h"
 
 // this is identical to a conventional OpenGL projection matrix, which

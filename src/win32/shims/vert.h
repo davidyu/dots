@@ -1,10 +1,11 @@
 #ifndef DOTS_VERTEX_H
 #define DOTS_VERTEX_H
 
-#include "vec.h"
+#include "color.hpp"
+#include "vec.hpp"
 
 struct Vertex {
-    Point3 pos;
+    Vec4 pos;
     Vec4 normal;
     Color color;
 };

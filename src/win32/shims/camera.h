@@ -1,8 +1,8 @@
-#include "vec.h"
-#include "mat.h"
+#include "vec.hpp"
+#include "mat.hpp"
 
 class Camera {
-    Point3 pos;
+    Vec4 pos;
     Vec4 aim;
     Vec4 right;
     Vec4 up;
