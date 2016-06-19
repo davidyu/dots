@@ -2,8 +2,6 @@
 // The software rasterizer
 //
 
-#include "types.inc"
-
 class VertexShader;
 class FragmentShader;
 

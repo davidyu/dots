@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <math.h>
-#include "types.inc"
 
 #define local_persist static
 #define global_variable static
@@ -18,6 +17,7 @@ const double ScaleX = 1.5;
 
 internal void Draw( int Width, int Height )
 {
+    // want to draw a white triangle
     int BytesPerPixel = 4;
     int Pitch = Width * BytesPerPixel;
     u8 * Row = (u8 *) BitmapMemory;
