@@ -1,21 +1,17 @@
 #include <windows.h>
 #include <math.h>
 
-#define local_persist static
-#define global_variable static
-#define internal static
-
-global_variable bool Running = true;
-global_variable BITMAPINFO BitmapInfo;
-global_variable void * BitmapMemory;
-global_variable int BitmapWidth;
-global_variable int BitmapHeight;
-global_variable int Tick;
+static bool       Running = true;
+static BITMAPINFO BitmapInfo;
+static void*      BitmapMemory;
+static int        BitmapWidth;
+static int        BitmapHeight;
+static int        Tick;
 
 const double PI = atan(1.0) * 4;
 const double ScaleX = 1.5;
 
-internal void Draw( int Width, int Height )
+static void Draw( int Width, int Height )
 {
     // want to draw a white triangle
     int BytesPerPixel = 4;
@@ -39,7 +35,7 @@ internal void Draw( int Width, int Height )
     }
 }
 
-internal void ResizeDIBSection( int Width, int Height )
+static void ResizeDIBSection( int Width, int Height )
 {
     if ( BitmapMemory ) {
         VirtualFree( BitmapMemory, 0, MEM_RELEASE );
@@ -61,7 +57,7 @@ internal void ResizeDIBSection( int Width, int Height )
     Draw( Width, Height );
 }
 
-internal void UpdateWindow( HDC DeviceContext, RECT * WindowRect, HWND Window, int X, int Y, int Width, int Height )
+static void UpdateWindow( HDC DeviceContext, RECT * WindowRect, HWND Window, int X, int Y, int Width, int Height )
 {
     int WindowWidth = WindowRect->right - WindowRect->left;
     int WindowHeight = WindowRect->bottom - WindowRect->top;
