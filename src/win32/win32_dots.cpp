@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <math.h>
 
+#include "rasterizer.h"
+
 static bool       Running = true;
 static BITMAPINFO BitmapInfo;
 static void*      BitmapMemory;
@@ -11,28 +13,14 @@ static int        Tick;
 const double PI = atan(1.0) * 4;
 const double ScaleX = 1.5;
 
+static Rasterizer RasterizerInstance;
+
 static void Draw( int Width, int Height )
 {
     // want to draw a white triangle
     int BytesPerPixel = 4;
     int Pitch = Width * BytesPerPixel;
-    u8 * Row = (u8 *) BitmapMemory;
-    for ( int Y = 0; Y < Height; Y++ ) {
-        u32 * Pixel = (u32 *) Row;
-        for ( int X = 0; X < Width; X++ ) {
-            u32 R = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width          ) + 1 )  ) ;
-            u32 G = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width + PI / 2 ) + 1 )  ) ;
-            u32 B = (int ) ( 127.5 * ( sin( (double ) 2 * PI * ( Tick + X ) / Width + PI     ) + 1 )  ) ;
-
-            // Little-Endian (BBGGRRxx)
-            *Pixel = ( ( R << 16) & 0x00ff0000 )
-                   | ( ( G << 8 ) & 0x0000ff00 )
-                   | ( ( B ) & 0x0000ff );
-
-            Pixel++;
-        }
-        Row += Pitch;
-    }
+    BitmapMemory = (void*) RasterizerInstance.GetImage( Width, Height );
 }
 
 static void ResizeDIBSection( int Width, int Height )
@@ -52,7 +40,7 @@ static void ResizeDIBSection( int Width, int Height )
     BitmapInfo.bmiHeader.biCompression = BI_RGB;
 
     int BytesPerPixel = 4;
-    BitmapMemory = VirtualAlloc( 0, BytesPerPixel * Width * Height, MEM_COMMIT, PAGE_READWRITE );
+    RasterizerInstance.ResizeBuffers( Width, Height );
 
     Draw( Width, Height );
 }
