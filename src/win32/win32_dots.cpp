@@ -25,10 +25,6 @@ static void Draw( int Width, int Height )
 
 static void ResizeDIBSection( int Width, int Height )
 {
-    if ( BitmapMemory ) {
-        VirtualFree( BitmapMemory, 0, MEM_RELEASE );
-    }
-
     BitmapWidth = Width;
     BitmapHeight = Height;
 
