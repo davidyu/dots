@@ -15,12 +15,10 @@ const double ScaleX = 1.5;
 
 static Rasterizer RasterizerInstance;
 
-static void Draw( int Width, int Height )
+static void Draw()
 {
     // want to draw a white triangle
-    int BytesPerPixel = 4;
-    int Pitch = Width * BytesPerPixel;
-    BitmapMemory = (void*) RasterizerInstance.GetImage( Width, Height );
+    BitmapMemory = (void*) RasterizerInstance.GetImage();
 }
 
 static void ResizeDIBSection( int Width, int Height )
@@ -38,7 +36,7 @@ static void ResizeDIBSection( int Width, int Height )
     int BytesPerPixel = 4;
     RasterizerInstance.ResizeBuffers( Width, Height );
 
-    Draw( Width, Height );
+    Draw();
 }
 
 static void UpdateWindow( HDC DeviceContext, RECT * WindowRect, HWND Window, int X, int Y, int Width, int Height )
@@ -153,7 +151,7 @@ WinMain( HINSTANCE Instance
                     DispatchMessage( &Message );
                 }
 
-                Draw( BitmapWidth, BitmapHeight );
+                Draw();
 
                 HDC DeviceContext = GetDC( WindowHandle );
 

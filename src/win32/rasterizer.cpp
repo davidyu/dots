@@ -15,7 +15,7 @@ Rasterizer::Rasterizer()
 
 Rasterizer::~Rasterizer() {}
 
-u8 * Rasterizer::GetImage( int width, int height ) {
+u8 * Rasterizer::GetImage() {
     return Framebuffer;
 }
 
