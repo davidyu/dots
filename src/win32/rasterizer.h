@@ -17,6 +17,10 @@ private:
     u8  * Backbuffer;
     u32 * Depthbuffer;
 public:
+    void BindVertexBuffer( float * Buffer, int Count );
+    void BindNormalBuffer( float * Buffer, int Count );
+    void BindIndexBuffer ( int * Buffer, int Count );
+
     u8 * GetImage();
     bool ResizeBuffers( int NewWidth, int NewHeight );
 

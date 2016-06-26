@@ -10,14 +10,31 @@ static int        BitmapWidth;
 static int        BitmapHeight;
 static int        Tick;
 
-const double PI = atan(1.0) * 4;
-const double ScaleX = 1.5;
-
 static Rasterizer RasterizerInstance;
 
 static void Draw()
 {
     // want to draw a white triangle
+    // bind commands into the renderer
+    // send vertex buffers
+    // send index buffers
+    
+    float Vertices[] = { 0, 1, 0
+                       , 1, 0, 0
+                       ,-1, 0, 0 };
+
+    float Normals[] = { 0, 0, 1
+                      , 0, 0, 1
+                      , 0, 0, 1 };
+
+    int Indices[] = { 0, 1, 2 };
+
+    RasterizerInstance.BindVertexBuffer( Vertices, countof( Vertices ) );
+    RasterizerInstance.BindNormalBuffer( Normals, countof( Normals ) );
+    RasterizerInstance.BindIndexBuffer( Indices, countof( Indices ) );
+
+
+    // render
     BitmapMemory = (void*) RasterizerInstance.GetImage();
 }
 

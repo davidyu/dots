@@ -10,13 +10,24 @@ Rasterizer::Rasterizer()
     , Framebuffer( null )
     , Backbuffer( null )
     , Depthbuffer( null ) {
-
 }
 
 Rasterizer::~Rasterizer() {}
 
 u8 * Rasterizer::GetImage() {
     return Framebuffer;
+}
+
+void Rasterizer::BindVertexBuffer( float * Buffer, int Count ) {
+
+}
+
+void Rasterizer::BindNormalBuffer( float * Buffer, int Count ) {
+
+}
+
+void Rasterizer::BindIndexBuffer( int * Buffer, int Count ) {
+
 }
 
 bool Rasterizer::ResizeBuffers( int NewWidth, int NewHeight ) {
@@ -27,7 +38,7 @@ bool Rasterizer::ResizeBuffers( int NewWidth, int NewHeight ) {
 
     if ( NewDim > OldDim ) {
         if ( Framebuffer != null ) delete[] Framebuffer;
-        if ( Backbuffer != null ) delete[] Backbuffer;
+        if ( Backbuffer  != null ) delete[] Backbuffer;
         if ( Depthbuffer != null ) delete[] Depthbuffer;
 
         Framebuffer  = new u8 [ NewDim * 4 ]; // RGBA
