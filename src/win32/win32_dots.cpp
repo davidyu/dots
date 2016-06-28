@@ -15,10 +15,6 @@ static Rasterizer RasterizerInstance;
 static void Draw()
 {
     // want to draw a white triangle
-    // bind commands into the renderer
-    // send vertex buffers
-    // send index buffers
-    
     float Vertices[] = { 0, 1, 0
                        , 1, 0, 0
                        ,-1, 0, 0 };
@@ -32,7 +28,6 @@ static void Draw()
     RasterizerInstance.BindVertexBuffer( Vertices, countof( Vertices ) );
     RasterizerInstance.BindNormalBuffer( Normals, countof( Normals ) );
     RasterizerInstance.BindIndexBuffer( Indices, countof( Indices ) );
-
 
     // render
     BitmapMemory = (void*) RasterizerInstance.GetImage();

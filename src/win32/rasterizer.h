@@ -16,6 +16,14 @@ private:
     u8  * Framebuffer;
     u8  * Backbuffer;
     u32 * Depthbuffer;
+
+    float * VertexBuffer;
+    u32     VertexBufferSize;
+    float * NormalBuffer;
+    u32     NormalBufferSize;
+    int *   IndexBuffer;
+    u32     IndexBufferSize;
+
 public:
     void BindVertexBuffer( float * Buffer, int Count );
     void BindNormalBuffer( float * Buffer, int Count );

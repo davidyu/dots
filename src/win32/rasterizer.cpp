@@ -19,15 +19,18 @@ u8 * Rasterizer::GetImage() {
 }
 
 void Rasterizer::BindVertexBuffer( float * Buffer, int Count ) {
-
+    VertexBuffer = Buffer;
+    VertexBufferSize = Count;
 }
 
 void Rasterizer::BindNormalBuffer( float * Buffer, int Count ) {
-
+    NormalBuffer = Buffer;
+    NormalBufferSize = Count;
 }
 
 void Rasterizer::BindIndexBuffer( int * Buffer, int Count ) {
-
+    IndexBuffer = Buffer;
+    IndexBufferSize = Count;
 }
 
 bool Rasterizer::ResizeBuffers( int NewWidth, int NewHeight ) {
