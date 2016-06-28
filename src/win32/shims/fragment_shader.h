@@ -1,3 +1,5 @@
+#pragma once
+
 #include "vertex_shader.h"
 
 struct FS_OUT {

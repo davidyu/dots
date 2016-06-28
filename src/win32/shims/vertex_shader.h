@@ -1,5 +1,4 @@
-#ifndef DOTS_VERTEX_SHADER_H
-#define DOTS_VERTEX_SHADER_H
+#pragma once
 
 #include "vert.h"
 #include "mat.hpp"
@@ -20,5 +19,3 @@ public:
 
     virtual VS_OUT shade( VS_IN in ) = 0;
 };
-
-#endif

@@ -29,8 +29,13 @@ public:
     void BindNormalBuffer( float * Buffer, int Count );
     void BindIndexBuffer ( int * Buffer, int Count );
 
-    u8 * GetImage();
+    void UseVertexShader( VertexShader * Shader );
+    void UseFragmentShader( FragmentShader * Shader );
+
     bool ResizeBuffers( int NewWidth, int NewHeight );
+    void Render();
+
+    u8 * GetImage();
 
     Rasterizer();
     ~Rasterizer();

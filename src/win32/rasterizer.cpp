@@ -33,6 +33,18 @@ void Rasterizer::BindIndexBuffer( int * Buffer, int Count ) {
     IndexBufferSize = Count;
 }
 
+void Rasterizer::UseVertexShader( VertexShader * Shader ) {
+    VS = Shader;
+}
+
+void Rasterizer::UseFragmentShader( FragmentShader * Shader ) {
+    FS = Shader;
+}
+
+void Rasterizer::Render() {
+
+}
+
 bool Rasterizer::ResizeBuffers( int NewWidth, int NewHeight ) {
     bool Success = false;
 

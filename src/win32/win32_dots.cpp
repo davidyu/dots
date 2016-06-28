@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <math.h>
 
+#include "vertex_shader.h"
+#include "fragment_shader.h"
 #include "rasterizer.h"
 
 static bool       Running = true;
@@ -11,6 +13,24 @@ static int        BitmapHeight;
 static int        Tick;
 
 static Rasterizer RasterizerInstance;
+
+class BasicVertexShader: public VertexShader {
+    VS_OUT shade( VS_IN in ) override {
+        VS_OUT out;
+        return out;
+    }
+};
+
+static BasicVertexShader vs;
+
+class BasicFragmentShader: public FragmentShader {
+    FS_OUT shade( VS_OUT in ) override {
+        FS_OUT out;
+        return out;
+    }
+};
+
+static BasicFragmentShader fs;
 
 static void Draw()
 {
@@ -29,7 +49,11 @@ static void Draw()
     RasterizerInstance.BindNormalBuffer( Normals, countof( Normals ) );
     RasterizerInstance.BindIndexBuffer( Indices, countof( Indices ) );
 
+    RasterizerInstance.UseVertexShader( &vs );
+    RasterizerInstance.UseFragmentShader( &fs );
+
     // render
+    RasterizerInstance.Render();
     BitmapMemory = (void*) RasterizerInstance.GetImage();
 }
 
