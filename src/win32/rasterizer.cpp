@@ -1,8 +1,8 @@
-#include "rasterizer.h"
+#include "rasterizer.hpp"
 
 #include "vec.hpp"
-#include "vertex_shader.h"
-#include "fragment_shader.h"
+#include "vertex_shader.hpp"
+#include "fragment_shader.hpp"
 
 Rasterizer::Rasterizer()
     : VS( null )

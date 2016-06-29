@@ -1,9 +1,9 @@
 #include <windows.h>
 #include <math.h>
 
-#include "vertex_shader.h"
-#include "fragment_shader.h"
-#include "rasterizer.h"
+#include "vertex_shader.hpp"
+#include "fragment_shader.hpp"
+#include "rasterizer.hpp"
 
 static bool       Running = true;
 static BITMAPINFO BitmapInfo;

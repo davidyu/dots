@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vertex_shader.h"
+#include "vertex_shader.hpp"
 
 struct FS_OUT {
     Color color;
