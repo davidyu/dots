@@ -17,6 +17,7 @@ static Rasterizer RasterizerInstance;
 class BasicVertexShader: public VertexShader {
     VS_OUT shade( VS_IN in ) override {
         VS_OUT out;
+        out.position = ( projectionMatrix * viewMatrix * modelMatrix ) * in.v.pos; 
         return out;
     }
 };
@@ -54,6 +55,15 @@ static void Draw()
 
     // render
     RasterizerInstance.Render();
+
+    Mat4 mm = identity<4>();
+    Mat4 vm = identity<4>();
+    Mat4 projection = identity<4>();
+
+    vs.projectionMatrix = projection;
+    vs.modelMatrix = mm;
+    vs.viewMatrix = vm;
+
     BitmapMemory = (void*) RasterizerInstance.GetImage();
 }
 
