@@ -26,7 +26,7 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-func main(args: [String]) -> Int {
+func createWindow(args: [String]) -> Int {
     let app: NSApplication = NSApplication.sharedApplication()
     app.setActivationPolicy( NSApplicationActivationPolicy.Regular ) // this tells OS X that this is a standard application that appears in the dock
 
@@ -45,6 +45,9 @@ func main(args: [String]) -> Int {
     let appDelegate = ApplicationDelegate( window: window )
     app.delegate = appDelegate
     app.activateIgnoringOtherApps( true )
+
+    var pixels  = [Pixel]( count: Int( 20 ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
+
     app.run()
 
     return 0

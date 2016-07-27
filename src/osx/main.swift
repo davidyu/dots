@@ -1,1 +1,1 @@
-main( Process.arguments )
+createWindow( Process.arguments )
