@@ -46,7 +46,11 @@ func createWindow(args: [String]) -> Int {
     app.delegate = appDelegate
     app.activateIgnoringOtherApps( true )
 
-    var pixels  = [Pixel]( count: Int( 20 ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
+    let pixels  = [Pixel]( count: Int( 1000 ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
+    let imgView = NSImageView()
+    imgView.frame = CGRect( x: 0, y: 0, width: 250, height: 4 )
+    imgView.image = imageFromBitmap( pixels, width: 250, height: 4 )
+    window.contentView?.addSubview( imgView )
 
     app.run()
 
