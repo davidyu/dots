@@ -1,13 +1,6 @@
 import AppKit
 import CoreGraphics
 
-public struct Pixel {
-    var a:UInt8
-    var r:UInt8
-    var g:UInt8
-    var b:UInt8
-}
-
 public func imageFromBitmap( pixels: [Pixel], width: Int, height:Int ) -> NSImage {
     var data = pixels
     let provider = CGDataProviderCreateWithCFData( NSData( bytes: &data, length: pixels.count * sizeof( Pixel ) ) )
