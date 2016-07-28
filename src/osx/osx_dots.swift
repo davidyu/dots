@@ -26,8 +26,14 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-func createWindow(args: [String]) -> Int {
-    let windowRect = NSMakeRect( 0, 0, 800, 600 )
+func createWindow( args: [String] ) -> Int {
+    var windowRect = NSMakeRect( 0, 0, 800, 600 )
+
+    if ( args.count >= 3 ) {
+        windowRect.size.width = CGFloat( Float( args[1] )! )
+        windowRect.size.height = CGFloat( Float( args[2] )! )
+    }
+
     let app: NSApplication = NSApplication.sharedApplication()
     app.setActivationPolicy( NSApplicationActivationPolicy.Regular ) // this tells OS X that this is a standard application that appears in the dock
 
