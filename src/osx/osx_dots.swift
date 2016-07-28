@@ -27,10 +27,11 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate {
 }
 
 func createWindow(args: [String]) -> Int {
+    let windowRect = NSMakeRect( 0, 0, 800, 600 )
     let app: NSApplication = NSApplication.sharedApplication()
     app.setActivationPolicy( NSApplicationActivationPolicy.Regular ) // this tells OS X that this is a standard application that appears in the dock
 
-    let window: NSWindow = NSWindow( contentRect : NSMakeRect( 0, 0, 800, 600 )
+    let window: NSWindow = NSWindow( contentRect : windowRect
                                    , styleMask   : NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask
                                    , backing     : NSBackingStoreType.Buffered
                                    , defer       : true )
@@ -47,8 +48,7 @@ func createWindow(args: [String]) -> Int {
     app.activateIgnoringOtherApps( true )
 
     let pixels  = [Pixel]( count: Int( 1000 ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
-    let imgView = NSImageView()
-    imgView.frame = CGRect( x: 0, y: 0, width: 250, height: 4 )
+    let imgView = NSImageView( frame: NSMakeRect( 0, windowRect.size.height - 4, 250, 4 ) )
     imgView.image = imageFromBitmap( pixels, width: 250, height: 4 )
     window.contentView?.addSubview( imgView )
 
