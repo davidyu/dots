@@ -1,6 +1,9 @@
 import AppKit
 import CoreGraphics
 
+// TODO: move me into the relevant class
+var screenView = NSImageView( frame: NSMakeRect( 0, 0, 800, 600 ) )
+
 class WindowDelegate: NSObject, NSWindowDelegate {
     func windowWillClose( notification: NSNotification ) {
         NSApplication.sharedApplication().terminate(0)
@@ -8,11 +11,7 @@ class WindowDelegate: NSObject, NSWindowDelegate {
 
     func windowDidResize( notification: NSNotification ) {
         let window = notification.object as! NSWindow
-        window.backgroundColor = NSColor( red: CGFloat( 1.0 )
-                                        , green: CGFloat( 0.0 )
-                                        , blue: CGFloat( 0.0 )
-                                        , alpha: CGFloat( 1.0 )
-                                        )
+        resizeWindow( window )
     }
 }
 
@@ -24,6 +23,20 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching( notification: NSNotification ) {
+        let frame = window.contentView!.frame
+
+        let w = frame.size.width
+        let h = frame.size.height
+    
+        screenView.frame.size.width = w
+        screenView.frame.size.height = h
+        screenView.frame.origin.x = 0
+        screenView.frame.origin.y = 0
+
+        let pixels  = [Pixel]( count: Int( w * h ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
+        screenView.image = imageFromBitmap( pixels, width: Int( w ), height: Int( h ) )
+
+        self.window.contentView?.addSubview( screenView )
     }
 }
 
@@ -46,13 +59,32 @@ public func imageFromBitmap( pixels: [Pixel], width: Int, height:Int ) -> NSImag
     return NSImage( CGImage: img!, size: CGSize( width: width, height: height ) )
 }
 
+func resizeWindow( window: NSWindow ) {
+    let frame = window.contentView!.frame
+
+    let w = frame.size.width
+    let h = frame.size.height
+
+    // only repaint if necessary
+    if ( w != screenView.frame.size.width || h == screenView.frame.size.height ) {
+        screenView.frame.size.width = w
+        screenView.frame.size.height = h
+
+        let pixels  = [Pixel]( count: Int( w * h ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
+        screenView.image = imageFromBitmap( pixels, width: Int( w ), height: Int( h ) )
+    }
+}
+
 func createWindow( args: [String] ) -> Int {
-    var windowRect = NSMakeRect( 0, 0, 800, 600 )
+    var w = CGFloat( 800 )
+    var h = CGFloat( 600 )
 
     if ( args.count >= 3 ) {
-        windowRect.size.width = CGFloat( Float( args[1] )! )
-        windowRect.size.height = CGFloat( Float( args[2] )! )
+        w = CGFloat( Float( args[1] )! )
+        h = CGFloat( Float( args[2] )! )
     }
+
+    let windowRect = NSMakeRect( 0, 0, w, h )
 
     let app: NSApplication = NSApplication.sharedApplication()
     app.setActivationPolicy( NSApplicationActivationPolicy.Regular ) // this tells OS X that this is a standard application that appears in the dock
@@ -72,11 +104,6 @@ func createWindow( args: [String] ) -> Int {
     let appDelegate = ApplicationDelegate( window: window )
     app.delegate = appDelegate
     app.activateIgnoringOtherApps( true )
-
-    let pixels  = [Pixel]( count: Int( 1000 ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
-    let imgView = NSImageView( frame: NSMakeRect( 0, windowRect.size.height - 4, 250, 4 ) )
-    imgView.image = imageFromBitmap( pixels, width: 250, height: 4 )
-    window.contentView?.addSubview( imgView )
 
     app.run()
 
