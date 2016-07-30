@@ -3,6 +3,7 @@ import CoreGraphics
 
 // TODO: move me into the relevant class
 var screenView = NSImageView( frame: NSMakeRect( 0, 0, 800, 600 ) )
+var rasterizer = Rasterizer( width: 800, height:600 )
 
 class WindowDelegate: NSObject, NSWindowDelegate {
     func windowWillClose( notification: NSNotification ) {
@@ -11,7 +12,7 @@ class WindowDelegate: NSObject, NSWindowDelegate {
 
     func windowDidResize( notification: NSNotification ) {
         let window = notification.object as! NSWindow
-        resizeWindow( window )
+        resizeWindow( window, rasterizer: rasterizer )
     }
 }
 
@@ -59,7 +60,7 @@ public func imageFromBitmap( pixels: [Pixel], width: Int, height:Int ) -> NSImag
     return NSImage( CGImage: img!, size: CGSize( width: width, height: height ) )
 }
 
-func resizeWindow( window: NSWindow ) {
+func resizeWindow( window: NSWindow, rasterizer: Rasterizer ) {
     let frame = window.contentView!.frame
 
     let w = frame.size.width
@@ -70,7 +71,9 @@ func resizeWindow( window: NSWindow ) {
         screenView.frame.size.width = w
         screenView.frame.size.height = h
 
-        let pixels  = [Pixel]( count: Int( w * h ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
+        rasterizer.resizeBuffers( UInt( w ), newHeight: UInt( h ) )
+
+        let pixels  = rasterizer.GetImage()
         screenView.image = imageFromBitmap( pixels, width: Int( w ), height: Int( h ) )
     }
 }
@@ -100,6 +103,8 @@ func createWindow( args: [String] ) -> Int {
 
     let windDelegate = WindowDelegate()
     window.delegate = windDelegate
+
+    resizeWindow( window, rasterizer: rasterizer )
 
     let appDelegate = ApplicationDelegate( window: window )
     app.delegate = appDelegate
