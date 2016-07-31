@@ -1,11 +1,10 @@
 class Rasterizer {
-
-    var w: UInt = 800
-    var h: UInt = 600
+    var w: UInt
+    var h: UInt
 
     var frameBuffer: [Pixel]
 
-    init( width: UInt, height: UInt ) {
+    init( width: UInt = 0, height: UInt = 0 ) {
         w = width
         h = height
         frameBuffer = [Pixel](count: Int( w * h ), repeatedValue: Pixel( a: 255, r: 0, g: 0, b: 0 ) )

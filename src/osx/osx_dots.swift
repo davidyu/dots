@@ -3,7 +3,7 @@ import CoreGraphics
 
 // TODO: move me into the relevant class
 var screenView = NSImageView( frame: NSMakeRect( 0, 0, 800, 600 ) )
-var rasterizer = Rasterizer( width: 800, height:600 )
+var rasterizer:Rasterizer = Rasterizer()
 
 class WindowDelegate: NSObject, NSWindowDelegate {
     func windowWillClose( notification: NSNotification ) {
@@ -34,7 +34,9 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate {
         screenView.frame.origin.x = 0
         screenView.frame.origin.y = 0
 
-        let pixels  = [Pixel]( count: Int( w * h ), repeatedValue: Pixel( a: 255, r: 255, g: 0, b: 0 ) )
+        rasterizer.resizeBuffers( UInt( w ), newHeight: UInt( h ) )
+
+        let pixels = rasterizer.GetImage()
         screenView.image = imageFromBitmap( pixels, width: Int( w ), height: Int( h ) )
 
         self.window.contentView?.addSubview( screenView )
