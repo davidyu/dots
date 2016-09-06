@@ -1,6 +1,7 @@
 #include "rasterizer.hpp"
 
 #include "vec.hpp"
+#include "color.hpp"
 #include "vertex_shader.hpp"
 #include "fragment_shader.hpp"
 
@@ -41,8 +42,24 @@ void Rasterizer::UseFragmentShader( FragmentShader * Shader ) {
     FS = Shader;
 }
 
-void Rasterizer::Render() {
+struct VS_DAT {
+    VS_IN  In;
+    VS_OUT Out;
+};
 
+void Rasterizer::Render() {
+    // assemble input
+    VS_DAT * VSData = new VS_DAT[ VertexBufferSize ];
+
+    for ( uint i = 0; i < VertexBufferSize; i += 3 ) {
+        VSData[i].In.v.pos    = { VertexBuffer[i] , VertexBuffer[i + 1] , VertexBuffer[i + 2] , 1 };
+        VSData[i].In.v.normal = { NormalBuffer[i] , NormalBuffer[i + 1] , NormalBuffer[i + 2] , 0 };
+        VSData[i].In.v.color  = { 1, 0, 0, 1 };
+    }
+
+    for ( uint i = 0; i < VertexBufferSize; i += 3 ) {
+        VSData[i].Out = VS->shade( VSData[i].In );
+    }
 }
 
 bool Rasterizer::ResizeBuffers( int NewWidth, int NewHeight ) {
