@@ -52,14 +52,18 @@ void Rasterizer::Render() {
     VS_DAT * VSData = new VS_DAT[ VertexBufferSize ];
 
     for ( uint i = 0; i < VertexBufferSize; i += 3 ) {
-        VSData[i].In.v.pos    = { VertexBuffer[i] , VertexBuffer[i + 1] , VertexBuffer[i + 2] , 1 };
-        VSData[i].In.v.normal = { NormalBuffer[i] , NormalBuffer[i + 1] , NormalBuffer[i + 2] , 0 };
-        VSData[i].In.v.color  = { 1, 0, 0, 1 };
+        auto j = i/3; // because we increment i by 3 per iteration, we must divide by 3 for the correct VSData index
+        VSData[j].In.v.pos    = { VertexBuffer[i] , VertexBuffer[i + 1] , VertexBuffer[i + 2] , 1 };
+        VSData[j].In.v.normal = { NormalBuffer[i] , NormalBuffer[i + 1] , NormalBuffer[i + 2] , 0 };
+        VSData[j].In.v.color  = { 1, 0, 0, 1 }; // default red
     }
 
-    for ( uint i = 0; i < VertexBufferSize; i += 3 ) {
+    // run vertex shader
+    for ( uint i = 0; i < VertexBufferSize; i++ ) {
         VSData[i].Out = VS->shade( VSData[i].In );
     }
+
+    // TODO cull
 }
 
 bool Rasterizer::ResizeBuffers( int NewWidth, int NewHeight ) {
