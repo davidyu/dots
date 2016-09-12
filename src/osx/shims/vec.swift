@@ -1,5 +1,7 @@
 import Darwin
 
+let origin: Vec4 = Vec4( x: 0, y: 0, z: 0, w: 1 )
+
 class Vector {
     var data: [Float]
     var count: Int
@@ -89,6 +91,10 @@ class Vec4: Vector {
         super.init( v: [ x, y, z, w ] )
     }
 
+    init( r: Float, g: Float, b: Float, a: Float ) {
+        super.init( v: [ r, g, b, a ] )
+    }
+
     var x: Float {
         get      { return data[0] }
         set( x ) { data[0] = x    }
@@ -105,8 +111,28 @@ class Vec4: Vector {
     }
 
     var w: Float {
+        get      { return data[3] }
+        set( w ) { data[3] = w    }
+    }
+
+    var r: Float {
+        get      { return data[0] }
+        set( r ) { data[0] = r    }
+    }
+
+    var g: Float {
+        get      { return data[1] }
+        set( g ) { data[1] = g    }
+    }
+
+    var b: Float {
         get      { return data[2] }
-        set( w ) { data[2] = w    }
+        set( b ) { data[2] = b    }
+    }
+
+    var a: Float {
+        get      { return data[3] }
+        set( a ) { data[3] = a    }
     }
 
     override var lensq: Float {

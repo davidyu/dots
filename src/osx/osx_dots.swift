@@ -7,7 +7,7 @@ var rasterizer:Rasterizer = Rasterizer()
 
 class BasicVertexShader : VertexShader {
     override func shade( in: VS_IN ) -> VS_OUT {
-        return VS_OUT()
+        return VS_OUT( pos: origin )
     }
 }
 
