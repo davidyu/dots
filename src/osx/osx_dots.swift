@@ -5,6 +5,12 @@ import CoreGraphics
 var screenView = NSImageView( frame: NSMakeRect( 0, 0, 800, 600 ) )
 var rasterizer:Rasterizer = Rasterizer()
 
+class BasicVertexShader : VertexShader {
+    override func shade( in: VS_IN ) -> VS_OUT {
+        return VS_OUT()
+    }
+}
+
 class WindowDelegate: NSObject, NSWindowDelegate {
     func windowWillClose( notification: NSNotification ) {
         NSApplication.sharedApplication().terminate(0)

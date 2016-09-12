@@ -1,12 +1,15 @@
-protocol Matrix {
-    var m : [Float] { get set }
-    subscript( row: Int, col: Int ) -> Float { get set }
-}
+class Matrix {
+    var rows: Int
+    var cols: Int
 
-struct Mat<R:Nat, C:Nat>: Matrix {
-    private var rows = R.literal()
-    private var cols = C.literal()
-    var m = [Float]( count: R.literal() * C.literal(), repeatedValue: 0.0 )
+    var m: [Float]
+
+    init( rows: Int, cols: Int, m: [Float] ) {
+        self.rows = rows
+        self.cols = cols
+        self.m = m
+    }
+
     subscript( row: Int, col: Int ) -> Float {
         get {
             return m[ cols * row + col ]
@@ -16,37 +19,36 @@ struct Mat<R:Nat, C:Nat>: Matrix {
             m[ cols * row + col ] = newValue
         }
     }
-    init( m: [Float] ) {
-        self.m = m
-    }
 }
 
-func fromRows<R:Nat, C:Nat>( rows: [Vec<C>] ) -> Mat<R, C> {
+func fromRows<V:Vector>( rows: [V] ) -> Matrix {
     var m: [Float] = []
     for r in rows {
         m += r.data
     }
-    return Mat<R,C>( m: m )
+    return Matrix( rows: rows.count, cols: rows[0].count, m: m )
 }
 
-func fromCols<R:Nat, C:Nat>( cols: [Vec<R>] ) -> Mat<R, C> {
+func fromCols<V:Vector>( cols: [V] ) -> Matrix {
     var m: [Float] = []
-    for r in 0...R.literal() - 1 {
+
+    for r in 0...cols[0].count {
         for c in cols {
             m.append( c.data[r] )
         }
     }
-    return Mat<R,C>( m: m )
+
+    return Matrix( rows: cols[0].count, cols: cols.count, m: m )
 }
 
-func transpose<R:Nat, C:Nat>( mat: Mat<R, C> ) -> Mat<C, R> {
+func transpose( mat: Matrix ) -> Matrix {
     var m: [Float] = []
 
-    for r in 0...R.literal() - 1 {
-        for c in 0...C.literal() - 1 {
+    for r in 0...mat.rows - 1 {
+        for c in 0...mat.cols - 1 {
             m.append( mat[ c, r ] )
         }
     }
 
-    return Mat<C,R>( m: m )
+    return Matrix( rows: mat.cols, cols: mat.rows, m: m )
 }
