@@ -60,7 +60,7 @@ static void Draw()
     Mat4 vm = identity<4>();
     Mat4 projection = identity<4>();
 
-    vs.ProjectionMatrix = projection;
+    vs.ProjectionMatrix = make_perspective( M_PI / 2, 16.0 / 9.0, 1.0, -1.0 );
     vs.ModelMatrix = mm;
     vs.ViewMatrix = vm;
 
